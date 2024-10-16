@@ -7,8 +7,10 @@ var logger = require('morgan');
 async function main() {
   try {
 
-    var indexRouter = require('./routes/index');
-    var usersRouter = require('./routes/users');
+    var indexRouter = require('./routes/index')();
+    var usersRouter = require('./routes/users')();
+    var apiRouter = require('./routes/api')();
+
 
     var app = express();
 
@@ -24,6 +26,7 @@ async function main() {
 
     app.use('/', indexRouter);
     app.use('/users', usersRouter);
+    app.use('/api', apiRouter);
 
     var debug = require('debug')('phonebookapp:server');
     var http = require('http');
