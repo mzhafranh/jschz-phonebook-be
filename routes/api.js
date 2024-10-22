@@ -18,7 +18,7 @@ module.exports = function () {
                     where: {
                         [Op.or]: [{ name: { [Op.iLike]: `%${keyword}%` } }, { phone: { [Op.iLike]: `%${keyword}%` } }]
                     },
-                    order: [['id', sort]],
+                    order: [['name', sort]],
                     offset: offset,
                     limit: limit,
                 });
@@ -31,7 +31,7 @@ module.exports = function () {
                     total: count
                 })
             } else {
-                const { count, rows } = await Phonebook.findAndCountAll({ order: [['id', sort]], offset, limit });
+                const { count, rows } = await Phonebook.findAndCountAll({ order: [['name', sort]], offset, limit });
                 const pages = Math.ceil(count / limit)
                 res.status(200).json({
                     phonebooks: rows,
