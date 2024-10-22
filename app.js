@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fileUpload = require("express-fileupload");
+var cors = require('cors');
+
 
 async function main() {
   try {
@@ -26,6 +28,7 @@ async function main() {
     app.use(fileUpload({
       createParentPath: true,
     }) );
+    app.use(cors());
 
     app.use('/', indexRouter);
     app.use('/users', usersRouter);
