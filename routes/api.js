@@ -9,10 +9,11 @@ module.exports = function () {
     router.get('/phonebooks', async function (req, res, next) {
         try {
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 100;
+            const limit = parseInt(req.query.limit) || 10;
             const offset = (page - 1) * limit;
             var sort = req.query.sort ? req.query.sort : 'ASC';
             var keyword = req.query.keyword ? req.query.keyword : '';
+            console.log(page)
             if (keyword != '') {
                 const { count, rows } = await Phonebook.findAndCountAll({
                     where: {
