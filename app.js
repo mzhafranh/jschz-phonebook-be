@@ -6,7 +6,6 @@ var logger = require('morgan');
 var fileUpload = require("express-fileupload");
 var cors = require('cors');
 
-
 async function main() {
   try {
 
@@ -57,6 +56,8 @@ async function main() {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
+
+    module.exports = server
 
     /**
      * Normalize a port into a number, string, or false.
@@ -137,6 +138,8 @@ async function main() {
     throw 'failed to connect'
   }
 }
+
+
 
 main()
   .then()
