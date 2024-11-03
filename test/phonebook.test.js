@@ -45,7 +45,11 @@ describe('Phonebook API', function () {
             const res = await chai.request(app).post('/api/phonebooks').send(newEntry);
             expect(res.status).to.equal(201);
             expect(res).to.be.json;
+            expect(res.body).to.have.property('id').that.is.a('number')
             expect(res.body).to.include(newEntry);
+            expect(res.body).to.have.property('createdAt')
+            expect(res.body).to.have.property('updatedAt')
+            expect(res.body).to.have.property('avatar').that.is.a('null')
             testId = parseInt(res.body.id)
         });
     });
@@ -56,7 +60,11 @@ describe('Phonebook API', function () {
             const res = await chai.request(app).put(`/api/phonebooks/${testId}`).send(updatedData); // Adjust id for actual data
             expect(res.status).to.equal(201);
             expect(res).to.be.json;
+            expect(res.body).to.have.property('id').that.is.a('number')
             expect(res.body).to.include(updatedData);
+            expect(res.body).to.have.property('createdAt')
+            expect(res.body).to.have.property('updatedAt')
+            expect(res.body).to.have.property('avatar').that.is.a('null')
         });
     });
 
@@ -67,7 +75,12 @@ describe('Phonebook API', function () {
                 .attach('avatar', 'test/fixtures/avatar-test.png'); // Adjust path to your test image
             expect(res.status).to.equal(201);
             expect(res).to.be.json;
-            expect(res.body).to.have.property('avatar');
+            expect(res.body).to.have.property('id').that.is.a('number')
+            expect(res.body).to.have.property('name').that.is.equal("Person Test")
+            expect(res.body).to.have.property('phone').that.is.equal("081211111111")
+            expect(res.body).to.have.property('createdAt')
+            expect(res.body).to.have.property('updatedAt')
+            expect(res.body).to.have.property('avatar').that.is.not.a('null')
         });
     });
 
@@ -76,8 +89,11 @@ describe('Phonebook API', function () {
             const res = await chai.request(app).delete(`/api/phonebooks/${testId}`); // Adjust id for actual data
             expect(res.status).to.equal(200);
             expect(res).to.be.json;
-            expect(res.body).to.have.property('name');
-            expect(res.body).to.have.property('phone');
+            expect(res.body).to.have.property('id').that.is.a('number')
+            expect(res.body).to.have.property('name').that.is.equal("Person Test")
+            expect(res.body).to.have.property('phone').that.is.equal("081211111111")
+            expect(res.body).to.have.property('createdAt')
+            expect(res.body).to.have.property('updatedAt')
         });
     });
 });
