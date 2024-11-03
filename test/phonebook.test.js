@@ -17,7 +17,7 @@ describe('Phonebook API', function () {
             const res = await chai.request(app).get('/api/phonebooks').query({ page: 1, limit: 10 });
             expect(res.status).to.equal(200);
             expect(res).to.be.json;
-            expect(res.body).to.have.property('phonebooks').that.is.an('array');
+            expect(res.body).to.have.property('phonebooks').that.is.an('array').with.lengthOf.at.most(10);
             expect(res.body).to.have.property('page').that.equals(1);
             expect(res.body).to.have.property('limit').that.equals(10);
             expect(res.body).to.have.property('pages').that.is.an('number');
