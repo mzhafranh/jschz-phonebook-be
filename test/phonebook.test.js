@@ -49,6 +49,30 @@ describe('Phonebook API', function () {
                 expect.fail(`Error occurred: ${error.message}`);
             }
         });
+
+        it('should return phonebook sorted by name ascending Aa - Bob Toes', async function () {
+            try {
+                const res = await chai.request(app).get('/api/phonebooks').query({ page: 1, limit: 10, sort: 'asc' })
+                expect(res.status).to.equal(200);
+                expect(res).to.be.json;
+                expect(res.body.phonebooks[0].name).to.equal('Aa');
+                expect(res.body.phonebooks[9].name).to.equal('Bob Toes')
+            } catch (error) {
+                expect.fail(`Error occurred: ${error.message}`);
+            }
+        });
+
+        it('should return phonebook sorted by name ascending Zane Roe - Sarah Hoe', async function () {
+            try {
+                const res = await chai.request(app).get('/api/phonebooks').query({ page: 1, limit: 10, sort: 'desc' })
+                expect(res.status).to.equal(200);
+                expect(res).to.be.json;
+                expect(res.body.phonebooks[0].name).to.equal('Zane Roe');
+                expect(res.body.phonebooks[9].name).to.equal('Sarah Hoe')
+            } catch (error) {
+                expect.fail(`Error occurred: ${error.message}`);
+            }
+        });
     });
 
     describe('POST /phonebooks', function () {
