@@ -90,6 +90,17 @@ describe('Phonebook API', function () {
                 expect.fail(`Error occurred: ${error.message}`);
             }
         });
+
+        it('should get error bad request', async function () {
+            try {
+                const newEntry = { };
+                const res = await chai.request(app).post('/api/phonebooks').send(newEntry);
+                expect(res.status).to.equal(400);
+                expect(res).to.be.json;
+            } catch (error) {
+                expect.fail(`Error occurred: ${error.message}`);
+            }
+        });
     });
 
     describe('PUT /phonebooks/:id', function () {
