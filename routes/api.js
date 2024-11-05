@@ -50,8 +50,12 @@ module.exports = function () {
     router.post('/phonebooks', async function (req, res, next) {
         try {
             const { name, phone } = req.body
-            const phonebook = await Phonebook.create({ name, phone })
-            res.status(201).json(phonebook)
+            if (name && phone){
+                const phonebook = await Phonebook.create({ name, phone })
+                res.status(201).json(phonebook)
+            } else {
+                res.status(400).json({ message: "Missing required field" })
+            }
         } catch (error) {
             res.status(500).json({ message: error.message })
         }
