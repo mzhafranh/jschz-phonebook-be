@@ -2,6 +2,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http')
 const expect = chai.expect;
+const path = require('path');
+const fs = require('fs');
 
 const Phonebook = require('../models/phonebook')
 const app = require('../app.js'); // Adjust the path to your app's entry file
@@ -11,6 +13,7 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Phonebook API', function () {
+    let uploadedAvatarPath;
 
     describe('GET /phonebooks', function () {
         it('should retrieve a list of phonebooks', async function () {
@@ -159,6 +162,7 @@ describe('Phonebook API', function () {
                 expect(res.body).to.have.property('createdAt')
                 expect(res.body).to.have.property('updatedAt')
                 expect(res.body).to.have.property('avatar').that.is.not.a('null')
+                uploadedAvatarPath = path.join(__dirname, '..', 'public', 'uploads', res.body.avatar);
             } catch (error) {
                 expect.fail(`Error occurred: ${error.message}`);
             }
@@ -180,5 +184,16 @@ describe('Phonebook API', function () {
                 expect.fail(`Error occurred: ${error.message}`);
             }
         });
+    });
+
+    afterEach(function (done) {
+        if (uploadedAvatarPath && fs.existsSync(uploadedAvatarPath)) {
+            fs.unlink(uploadedAvatarPath, (err) => {
+                if (err) console.error('Failed to delete test file:', err);
+                done();
+            });
+        } else {
+            done();
+        }
     });
 });
